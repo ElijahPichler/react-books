@@ -4,6 +4,8 @@ import EditModal from './EditModal';
 import { FaRegTrashAlt,FaRegEdit  } from "react-icons/fa";
 import {supabase} from '../supabaseClient'
 import { Link as RouterLink } from 'react-router-dom';
+
+
 import {
     Table,
     Text,
@@ -35,22 +37,24 @@ interface BooksProps {
 }
 
 
-
+// Books will be used to view all the book entries in the database.
 const Books: FC<BooksProps> = ({books}) => {
+
 // State variables to keep track of modal
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
 
-// grab the desired book to edit and open modal
+// Update book object via ID and close the modal
 function handleEdit(id: number) {
     const bookToEdit = books.find(book => book.id === id) || null;
     setEditingBook(bookToEdit);
     setEditModalOpen(true)
   };
 
-// deleting book entry based off of it's unique ID
+// Delete book data via ID and refresh the window
 async function handleDelete(id: number) {
+
     setLoadingDelete(true)
 
     try{
@@ -67,7 +71,7 @@ async function handleDelete(id: number) {
     window.location.reload();
 };
 
-// close modal after completed
+
 const handleCloseEditModal = () => {
     setEditingBook(null);
     setEditModalOpen(false);
@@ -78,7 +82,7 @@ const handleCloseEditModal = () => {
           Books
         </Heading>
         
-        {books.length === 0 ? // update DOM based on databases size
+        {books.length === 0 ? // Update DOM based on databases size
         (
         <>
           <Text fontSize="lg" fontWeight="bold">
@@ -105,7 +109,7 @@ const handleCloseEditModal = () => {
               </Tr>
             </Thead>
             <Tbody >
-                {books.map((book) => ( // map through all books and display in table format
+                {books.map((book) => ( // Map through all books and display in table format
                   <Tr key={book.id}>
                     <Td>{book.title}</Td>
                     <Td>{book.author}</Td>

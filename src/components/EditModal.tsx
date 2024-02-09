@@ -30,6 +30,7 @@ interface Book {
   genre: string;
 }
 
+// EditModal will be used as a pop up for the user to smoothly edit the desired book
 const EditModal: FC<EditModalProps> = ({ isOpen, onClose, bookToEdit }) => {
   const [editedBook, setEditedBook] = useState<Book>({
     id: 0,
@@ -39,12 +40,14 @@ const EditModal: FC<EditModalProps> = ({ isOpen, onClose, bookToEdit }) => {
     genre: '',
   });
 
+  // Once bookToEdit changes (handleEdit is ran) we update the edits
   useEffect(() => {
     if (bookToEdit) {
       setEditedBook(bookToEdit);
     }
   }, [bookToEdit]);
 
+  // Once the Save button is pressed we update supabase with the chosen edits
   const handleEdit = async () => {
     if (editedBook) {
       const { data, error } = await supabase

@@ -7,7 +7,7 @@ interface LayoutProps {
     children: ReactNode;
   }
 
-// Layout component to reduce repeated code
+// Layout will be used to wrap around each component to allow for naviagation throughout the use of the app
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Box p={4} boxShadow="lg" borderRadius="md" bg="gray.100" minH="100vh" minW="100vw">

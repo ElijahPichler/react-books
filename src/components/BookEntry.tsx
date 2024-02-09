@@ -16,7 +16,7 @@ interface Book {
   genre: string;
 }
 
-// Supabase is assigning an unique ID
+// BookEntry will be used to allow inserting into the supabase database via from entry
 const BookEntry = () => {
   const [bookData, setBookData] = useState<Book>({
     title: '',
@@ -25,6 +25,7 @@ const BookEntry = () => {
     genre: '',
   });
 
+// Used prevData to avoid mutating the state object
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBookData((prevData) => ({
@@ -33,6 +34,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     }));
   };
 
+// Once submitted update the database. Supabase will assign an unique ID
 const handleSubmit = async () =>  {
     try {
         await supabase
@@ -49,6 +51,8 @@ const handleSubmit = async () =>  {
     } catch(error){
         console.error('Unexpected error:', error);
     }
+    // Reload the screen for newly added book object to appear
+    // Can subscribe to supabase to avoid this line
     window.location.reload()
   };
 
@@ -82,7 +86,6 @@ const handleSubmit = async () =>  {
                 type="date"
                 name="publishedDate"
                 placeholder="Enter date (MM/DD/YYYY)"
-                
                 value={bookData.publishedDate}
                 onChange={handleChange}
                 required
